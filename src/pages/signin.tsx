@@ -2,20 +2,47 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { getCsrfToken } from "next-auth/react";
-
+import { getCsrfToken, signIn } from "next-auth/react";
+import { useState } from "react";
+import { useRouter } from "next/router";
 export default function SignIn({
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [email, setEmail] = useState("");
+  const router = useRouter();
+  if (!csrfToken) return <div>loading...</div>;
+
+  let url = "http://localhost:3000"; // dev client should use localhost
+  if (process.env.VERCEL_URL) url = `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
+
+  const handleSignIn = async () => {
+    void signIn("email", {
+      email,
+      redirect: false,
+      callbackUrl: `${url}/`,
+    });
+
+    await router.push(
+      `${url}/verify-code?email=${email}&csrfToken=${csrfToken}`
+    );
+  };
+
   return (
-    <form method="post" action="/api/auth/signin/email">
-      <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+    <>
       <label>
         Email address
-        <input type="email" id="email" name="email" />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
       </label>
-      <button type="submit">Sign in with Email</button>
-    </form>
+      <button onClick={() => void handleSignIn()} type="submit">
+        Sign in with Email
+      </button>
+    </>
   );
 }
 
