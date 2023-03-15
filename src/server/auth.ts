@@ -60,7 +60,7 @@ export const authOptions: NextAuthOptions = {
         const { identifier, provider, token } = params;
         const url = new URL(params.url);
         const signInURL = new URL(
-          `/auth/email?${url.searchParams as unknown as string}`,
+          `/auth/email?${url.searchParams.toString()}`,
           url.origin
         );
         const escapedHost = signInURL.host.replace(/\./g, "&#8203;.");

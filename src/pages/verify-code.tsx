@@ -1,4 +1,3 @@
-//pages/auth/email.tsx
 import { useRouter } from "next/router";
 
 export default function VerifyCode() {

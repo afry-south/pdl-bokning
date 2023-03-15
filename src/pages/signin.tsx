@@ -2,14 +2,22 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { getCsrfToken, signIn } from "next-auth/react";
-import { useState } from "react";
+import { getCsrfToken, signIn, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 export default function SignIn({
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [email, setEmail] = useState("");
   const router = useRouter();
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      void router.push("/");
+    }
+  }, [router, status]);
+
   if (!csrfToken) return <div>loading...</div>;
 
   let url = "http://localhost:3000"; // dev client should use localhost
