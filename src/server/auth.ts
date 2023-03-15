@@ -52,6 +52,9 @@ export const authOptions: NextAuthOptions = {
       from: env.EMAIL_FROM,
     }),
   ],
+  pages: {
+    signIn: "/signin",
+  },
 };
 
 /**
