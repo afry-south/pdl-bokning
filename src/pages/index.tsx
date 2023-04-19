@@ -48,9 +48,11 @@ const Overview = () => {
     <div>
       {activities.map((activity) => {
         return (
-          <Link href={`/${activity.id}`} className="cursor-pointer">
-            {activity.name} - {activity.city}
-          </Link>
+          <div>
+            <Link href={`/activity/${activity.id}`} className="cursor-pointer">
+              {activity.name} - {activity.city}
+            </Link>
+          </div>
         );
       })}
     </div>
