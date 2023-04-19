@@ -13,7 +13,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (!sessionData && status === "unauthenticated") {
-      router.push("/signin");
+      router.push("/auth/signin");
     }
   }, [sessionData]);
 
@@ -41,7 +41,7 @@ const Overview = () => {
   if (!activities) return null;
 
   if (activities.length === 1 && activities[0]) {
-    router.push(`/${activities[0].id}`);
+    router.push(`/activity/${activities[0].id}`);
   }
 
   return (

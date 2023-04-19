@@ -31,7 +31,7 @@ export default function SignIn({
     });
 
     await router.push(
-      `${url}/verify-code?email=${email}&csrfToken=${csrfToken}`
+      `${url}/auth/verify-code?email=${email}&csrfToken=${csrfToken}`
     );
   };
 

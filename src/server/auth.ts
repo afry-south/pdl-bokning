@@ -80,8 +80,8 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/signin",
-    verifyRequest: "/verify-code",
+    signIn: "/auth/signin",
+    verifyRequest: "/auth/verify-code",
   },
 };
 
