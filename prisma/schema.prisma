@@ -53,13 +53,14 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String        @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?       @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    user_bookings UserBooking[]
 }
 
 model VerificationToken {
@@ -68,4 +69,38 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Activity {
+    id         String @id @default(cuid())
+    name       String
+    city       String
+    zip_code   String
+    address    String
+    info       String
+    rrule      String
+    time_start String
+    time_end   String
+}
+
+model ActivityTimeslot {
+    id          String @id @default(cuid())
+    activity_id String
+    date        String
+    info        String
+
+    user_bookings UserBooking[]
+}
+
+model UserBooking {
+    id String @id @default(cuid())
+
+    activity_date_id String
+    user_id          String
+
+    activity_date ActivityTimeslot @relation(fields: [activity_date_id], references: [id])
+    user          User             @relation(fields: [user_id], references: [id])
+
+    @@index([user_id])
+    @@index([activity_date_id])
 }
